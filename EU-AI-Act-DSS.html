@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EU AI Act Überlebens-Entscheidungsbaum</title>
+    <style>
+        /* Reset für konsistentes Rendering */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+        
+        .subtitle {
+            color: #666;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .interaction-area {
+            flex: 1;
+        }
+        
+        .visualization-area {
+            flex: 1;
+            border-top: 1px dashed #ccc;
+            padding-top: 20px;
+            min-height: 300px;
+        }
+        
+        .question-container {
+            background-color: #f0f0f0;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .cosmic-story {
+            background-color: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .option {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .yes-option {
+            background-color: #e6ffe6;
+            color: #006600;
+            border: 2px solid #006600;
+        }
+        
+        .no-option {
+            background-color: #ffe6e6;
+            color: #660000;
+            border: 2px solid #660000;
+        }
+        
+        .neutral-option {
+            background-color: #e6f7ff;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+        }
+        
+        .option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result {
+            background-color: #ffe6e6;
+            border: 3px solid #cc0000;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result h2 {
+            color: #cc0000;
+            margin-top: 0;
+        }
+        
+        .endpoint {
+            background-color: #e6f7ff;
+            border: 2px solid #0066cc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .restart-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+            font-weight: bold;
+        }
+        
+        .footnote {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 30px;
+            font-style: italic;
+        }
+        
+        /* Visualisierungsbereich Styles */
+        #tree-visualization {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+        
+        .node {
+            fill: #fff;
+            stroke: #333;
+            stroke-width: 2px;
+        }
+        
+        .node-visited {
+            fill: #e6f7ff;
+        }
+        
+        .node-current {
+            fill: #ffe6e6;
+            stroke: #cc0000;
+            stroke-width: 3px;
+        }
+        
+        .node-text {
+            font-size: 10px;
+            text-anchor: middle;
+            transition: all 0.3s ease;
+        }
+        
+        .node-enlarged .node-text {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .popup-info {
+            fill: white;
+            stroke: #333;
+            stroke-width: 1px;
+            rx: 5;
+            ry: 5;
+            opacity: 0.95;
+        }
+        
+        .popup-text {
+            font-size: 14px;
+            fill: #333;
+        }
+        
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+        
+        .link-visited {
+            stroke: #333;
+        }
+        
+        .vis-section-header {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .app-container {
+                flex-direction: row;
+            }
+            
+            .interaction-area {
+                width: 50%;
+            }
+            
+            .visualization-area {
+                width: 50%;
+                border-top: none;
+                border-left: 1px dashed #ccc;
+                padding-top: 0;
+                padding-left: 20px;
+            }
+        }
+        
+        /* Zusätzliche Styles für die iframe-Integration */
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+        
+        #khaos-tree-container {
+            width: 100%;
+            height: 100%;
+            min-height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div id="khaos-tree-container" class="container">
+        <h1>Der offizielle EU AI Act Überlebens-Entscheidungsbaum</h1>
+        <p class="subtitle">(oder: Wie du durch die Galaxie der Bürokratie navigierst ohne deinen Verstand zu verlieren)</p>
+        
+        <div class="app-container">
+            <div class="interaction-area">
+                <div id="game-container">
+                    <!-- Hier wird der dynamische Inhalt eingefügt -->
+                </div>
+                
+                <div id="result" class="result">
+                    <h2>BUCHE JETZT DEN KHAOS EU AI ACT KURS!</h2>
+                    <p>Herzlichen Glückwunsch! Du hast den einzig logischen Ausweg aus dem bürokratischen Labyrinth gefunden.</p>
+                    <button id="restart-btn" class="restart-btn">Nochmal spielen</button>
+                </div>
+            </div>
+            
+            <div class="visualization-area">
+                <p class="vis-section-header">Deine Reise durch den EU AI Act:</p>
+                <div id="tree-visualization">
+                    <!-- Hier wird die Baumvisualisierung gerendert -->
+                </div>
+            </div>
+        </div>
+        
+        <p class="footnote">*Hinweis: Egal welche Antworten du wählst, du brauchst diesen Kurs.<br>Es ist, als hätte das Schicksal (oder ein übermäßig sarkastischer Programmier-Guru) es so gewollt.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Resize-Handler für iFrame-Kommunikation
+            function notifyParentAboutSize() {
+                const height = document.getElementById('khaos-tree-container').offsetHeight;
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'resize', height: height + 50 }, '*');
+                }
+            }
+            
+            // Bei Änderungen die Größe anpassen
+            window.addEventListener('resize', notifyParentAboutSize);
+            
+            // Spielzustände
+            const gameStates = {
+                start: {
+                    type: 'cosmic-story',
+                    content: `
+                        <h3>Die kosmische Geschichte des EU AI Acts</h3>
+                        <p>1. Das Universum wurde erschaffen, was viele Leute sehr ärgerlich machte und im Allgemeinen für keine gute Idee befunden wurde.</p>
+                        <p>2. Unsere Vorfahren stiegen von den Bäumen, erschufen kurz danach Feuer, Rad und den Eingangsstempel der Behörden.</p>
+                        <p>3. Dies besorgte mächtige Bürger so sehr, dass sie im Jahr 2024 den EU AI Act erschufen.</p>
+                    `,
+                    displayName: 'Kosmische Geschichte',
+                    options: [
+                        { text: 'Großartig. Lass uns anfangen!', nextState: 'q1', class: 'neutral-option' }
+                    ]
+                },
+                q1: {
+                    type: 'question',
+                    content: 'Bist du ein Hochrisiko-AI-System Hersteller?',
+                    displayName: 'Hochrisiko-Hersteller?',
+                    options: [
+                        { text: 'Ja', nextState: 'e1', class: 'yes-option' },
+                        { text: 'Nein / Keine Ahnung', nextState: 'q2', class: 'no-option' }
+                    ]
+                },
+                e1: {
+                    type: 'endpoint',
+                    content: 'Hau ab! Hier bist du falsch. Viel Spaß mit deinen Anwälten.',
+                    displayName: 'Anwälte-Endstation',
+                    options: [
+                        { text: 'Oh... Weiter geht\'s', nextState: 'result', class: 'neutral-option' }
+                    ]
+                },
+                q2: {
+                    type: 'question',
+                    content: 'Möchtest du dein Geschäft behalten?',
+                    displayName: 'Geschäft behalten?',
+                    options: [
+                        { text: 'Ja', nextState: 'q3', class: 'yes-option' },
+                        { text: 'Nein', nextState: 'e2', class: 'no-option' }
+                    ]
+                },
+                e2: {
+                    type: 'endpoint',
+                    content: 'Na, dann brauchst du unseren Kurs erst recht!',
+                    displayName: 'Kein Geschäft',
+                    options: [
+                        { text: 'Einleuchtend. Weiter.', nextState: 'result', class: 'neutral-option' }
+                    ]
+                },
+                q3: {
+                    type: 'question',
+                    content: 'Planst du KI zu verwenden oder verwendest sie bereits?',
+                    displayName: 'KI verwenden?',
+                    options: [
+                        { text: 'Ja', nextState: 'q4', class: 'yes-option' },
+                        { text: 'Nein', nextState: 'q3b', class: 'no-option' }
+                    ]
+                },
+                q3b: {
+                    type: 'question',
+                    content: 'Lebst du unter einem Stein?',
+                    displayName: 'Unter einem Stein?',
+                    options: [
+                        { text: 'Ja', nextState: 'e3', class: 'yes-option' },
+                        { text: 'Natürlich nicht!', nextState: 'q_vision', class: 'no-option' }
+                    ]
+                },
+                e3: {
+                    type: 'endpoint',
+                    content: 'Riskant! Die Konkurrenz nutzt KI längst.',
+                    displayName: 'Steinbewohner',
+                    options: [
+                        { text: 'Ups. Weiter.', nextState: 'q_vision', class: 'neutral-option' }
+                    ]
+                },
+                q4: {
+                    type: 'question',
+                    content: 'Verstehst du die EU AI Act Compliance-Anforderungen?',
+                    displayName: 'Compliance verstehen?',
+                    options: [
+                        { text: 'Ja klar!', nextState: 'e4', class: 'yes-option' },
+                        { text: 'Nein / Bin verwirrt', nextState: 'q_management', class: 'no-option' }
+                    ]
+                },
+                e4: {
+                    type: 'endpoint',
+                    content: 'Guter Versuch! Aber niemand versteht sie.',
+                    displayName: 'Niemand versteht es',
+                    options: [
+                        { text: 'Erwischt. Weiter.', nextState: 'q_management', class: 'neutral-option' }
+                    ]
+                },
+                // Neue Verzweigungen
+                q_vision: {
+                    type: 'question',
+                    content: 'Wie stellst du dir die KI-Zukunft vor?',
+                    displayName: 'KI-Zukunftsvision',
+                    options: [
+                        { text: 'Roboter-Utopie', nextState: 'e_vision1', class: 'yes-option' },
+                        { text: 'KI-Apokalypse', nextState: 'e_vision2', class: 'no-option' },
+                        { text: 'Arbeitslos durch KI', nextState: 'e_vision3', class: 'neutral-option' }
+                    ]
+                },
+                e_vision1: {
+                    type: 'endpoint',
+                    content: 'Süß, wie naiv. Aber bevor die Roboter uns dienen, müssen wir erst die EU-Compliance erfüllen.',
+                    displayName: 'Naive Utopie',
+                    options: [
+                        { text: 'Das leuchtet ein. Weiter.', nextState: 'q_management', class: 'neutral-option' }
+                    ]
+                },
+                e_vision2: {
+                    type: 'endpoint',
+                    content: 'Keine Sorge, die EU-Bürokratie wird die Maschinen aufhalten, bevor sie die Weltherrschaft übernehmen können.',
+                    displayName: 'Bürokratie > Skynet',
+                    options: [
+                        { text: 'Beruhigend. Weiter.', nextState: 'q_management', class: 'neutral-option' }
+                    ]
+                },
+                e_vision3: {
+                    type: 'endpoint',
+                    content: 'Na immerhin hast du dann Zeit für unseren Kurs!',
+                    displayName: 'Zeit für den Kurs',
+                    options: [
+                        { text: 'Da ist was dran. Weiter.', nextState: 'q_management', class: 'neutral-option' }
+                    ]
+                },
+                q_management: {
+                    type: 'question',
+                    content: 'Wie hat dein Management auf den EU AI Act reagiert?',
+                    displayName: 'Management-Reaktion',
+                    options: [
+                        { text: 'Mit Panik', nextState: 'e_mgmt1', class: 'no-option' },
+                        { text: 'Mit Ignoranz', nextState: 'e_mgmt2', class: 'neutral-option' },
+                        { text: 'Mit strategischer Planung', nextState: 'e_mgmt3', class: 'yes-option' }
+                    ]
+                },
+                e_mgmt1: {
+                    type: 'endpoint',
+                    content: 'Klassisch! Panik ist immer die erste Reaktion auf EU-Verordnungen. Fast so zuverlässig wie die deutsche Bahn unpünktlich ist.',
+                    displayName: 'Deutsche Bahn der Compliance',
+                    options: [
+                        { text: 'Leider wahr. Weiter.', nextState: 'q_implementation', class: 'neutral-option' }
+                    ]
+                },
+                e_mgmt2: {
+                    type: 'endpoint',
+                    content: 'Die Strategie "Kopf in den Sand" - funktioniert hervorragend, bis die ersten Bußgelder kommen.',
+                    displayName: 'Kopf im Sand',
+                    options: [
+                        { text: 'Wird teuer. Weiter.', nextState: 'q_implementation', class: 'neutral-option' }
+                    ]
+                },
+                e_mgmt3: {
+                    type: 'endpoint',
+                    content: 'Du lügst! Niemand plant strategisch für EU-Regularien. Das ist wie Vorbereitungen für eine Alien-Invasion.',
+                    displayName: 'Alien-Invasion',
+                    options: [
+                        { text: 'Erwischt. Weiter.', nextState: 'q_implementation', class: 'neutral-option' }
+                    ]
+                },
+                q_implementation: {
+                    type: 'question',
+                    content: 'Wie planst du die Compliance-Anforderungen umzusetzen?',
+                    displayName: 'Umsetzungsplan',
+                    options: [
+                        { text: 'Excel-Tabelle', nextState: 'e_impl1', class: 'no-option' },
+                        { text: 'Ein internes Team beauftragen', nextState: 'e_impl2', class: 'neutral-option' },
+                        { text: 'Externe Berater engagieren', nextState: 'e_impl3', class: 'yes-option' }
+                    ]
+                },
+                e_impl1: {
+                    type: 'endpoint',
+                    content: 'Ah, die universelle Lösung für alles. Warum nicht gleich eine PowerPoint-Präsentation mit Comic Sans?',
+                    displayName: 'Excel vs. AI Act',
+                    options: [
+                        { text: 'Comic Sans wäre besser. Weiter.', nextState: 'q5', class: 'neutral-option' }
+                    ]
+                },
+                e_impl2: {
+                    type: 'endpoint',
+                    content: 'Perfekt! Nichts schreit "Erfolg" wie ein überarbeitetes Team ohne Expertise.',
+                    displayName: 'Überarbeitetes Team',
+                    options: [
+                        { text: 'Die Armen. Weiter.', nextState: 'q5', class: 'neutral-option' }
+                    ]
+                },
+                e_impl3: {
+                    type: 'endpoint',
+                    content: 'Klassiker! Deren Expertise besteht hauptsächlich darin, dein Budget in ihre Taschen zu befördern.',
+                    displayName: 'Budget-Transfer-Experten',
+                    options: [
+                        { text: 'Teures Vergnügen. Weiter.', nextState: 'q5', class: 'neutral-option' }
+                    ]
+                },
+                q5: {
+                    type: 'question',
+                    content: 'Mögen deine Mitarbeiter Bürokratie und endlose Compliance-Meetings?',
+                    displayName: 'Bürokratie-Liebe?',
+                    options: [
+                        { text: 'Ja, total!', nextState: 'e5', class: 'yes-option' },
+                        { text: 'Nein', nextState: 'q6', class: 'no-option' }
+                    ]
+                },
+                e5: {
+                    type: 'endpoint',
+                    content: 'Lügner!',
+                    displayName: 'Lügner!',
+                    options: [
+                        { text: 'Okay, okay. Weiter.', nextState: 'q6', class: 'neutral-option' }
+                    ]
+                },
+                q6: {
+                    type: 'question',
+                    content: 'Möchtest du eine einfache, effektive Lösung, die deine Konkurrenz grün vor Neid werden lässt?',
+                    displayName: 'Konkurrenz-Vorteil?',
+                    options: [
+                        { text: 'Definitiv!', nextState: 'result', class: 'yes-option' },
+                        { text: 'Wer würde das nicht wollen?', nextState: 'result', class: 'neutral-option' }
+                    ]
+                },
+                result: {
+                    type: 'end',
+                    content: '',
+                    displayName: 'KHAOS Kurs!'
+                }
+            };
+
+            // Baum-Visualisierungsdaten
+            const treeData = {
+                nodes: [
+                    { id: 'start', x: 400, y: 50, label: 'Start' }
+                ],
+                links: []
+            };
+            
+            // Besuchspfad für die Visualisierung
+            let visitedPath = [];
+            let currentState = 'start';
+            visitedPath.push(currentState);
+            
+            // DOM-Elemente
+            const gameContainer = document.getElementById('game-container');
+            const resultElement = document.getElementById('result');
+            const restartBtn = document.getElementById('restart-btn');
+            const treeVisualization = document.getElementById('tree-visualization');
+            
+            // Koordinatenberechnung für Baumknoten
+            function calculateNodePosition(stateId) {
+                // Feststellen, wo wir im Baum sind
+                const levels = {
+                    'start': 0,
+                    'q1': 1,
+                    'e1': 2, 'q2': 2,
+                    'e2': 3, 'q3': 3,
+                    'q3b': 4, 'q4': 4,
+                    'e3': 5, 'e4': 5, 'q_vision': 5, 'q_management': 5,
+                    'e_vision1': 6, 'e_vision2': 6, 'e_vision3': 6, 'e_mgmt1': 6, 'e_mgmt2': 6, 'e_mgmt3': 6,
+                    'q_implementation': 7,
+                    'e_impl1': 8, 'e_impl2': 8, 'e_impl3': 8,
+                    'q5': 9,
+                    'e5': 10, 'q6': 10,
+                    'result': 11
+                };
+                
+                // Horizontale Position basierend auf ID (einfach für die Demo)
+                const horizontalPositions = {
+                    'start': 400,
+                    'q1': 400,
+                    'e1': 600, 'q2': 400,
+                    'e2': 600, 'q3': 400,
+                    'q3b': 500, 'q4': 300,
+                    'e3': 550, 'e4': 250, 'q_vision': 500, 'q_management': 300,
+                    'e_vision1': 450, 'e_vision2': 500, 'e_vision3': 550, 'e_mgmt1': 250, 'e_mgmt2': 300, 'e_mgmt3': 350,
+                    'q_implementation': 300,
+                    'e_impl1': 250, 'e_impl2': 300, 'e_impl3': 350,
+                    'q5': 300,
+                    'e5': 400, 'q6': 300,
+                    'result': 400
+                };
+                
+                const level = levels[stateId] || 0;
+                const x = horizontalPositions[stateId] || 400;
+                const y = 50 + level * 60;
+                
+                return { x, y };
+            }
+            
+            // Baum visualisieren
+            function renderTree() {
+                // SVG-Element erstellen oder leeren
+                treeVisualization.innerHTML = '';
+                const svgNS = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("width", "100%");
+                svg.setAttribute("height", "700"); // Anpassen nach Bedarf
+                svg.setAttribute("viewBox", "0 0 800 700");
+                treeVisualization.appendChild(svg);
+                
+                // Verbindungslinien zeichnen
+                treeData.links.forEach(link => {
+                    const line = document.createElementNS(svgNS, "path");
+                    const sourceNode = treeData.nodes.find(n => n.id === link.source);
+                    const targetNode = treeData.nodes.find(n => n.id === link.target);
+                    
+                    if (sourceNode && targetNode) {
+                        const path = `M${sourceNode.x},${sourceNode.y} C${sourceNode.x},${(sourceNode.y + targetNode.y) / 2} ${targetNode.x},${(sourceNode.y + targetNode.y) / 2} ${targetNode.x},${targetNode.y}`;
+                        line.setAttribute("d", path);
+                        line.setAttribute("class", `link ${visitedPath.includes(link.source) && visitedPath.includes(link.target) ? 'link-visited' : ''}`);
+                        svg.appendChild(line);
+                    }
+                });
+                
+                // Knoten zeichnen
+                treeData.nodes.forEach(node => {
+                    const nodeGroup = document.createElementNS(svgNS, "g");
+                    nodeGroup.setAttribute("transform", `translate(${node.x},${node.y})`);
+                    
+                    const circle = document.createElementNS(svgNS, "circle");
+                    circle.setAttribute("r", "25");
+                    circle.setAttribute("cursor", "pointer");
+                    if (node.id === currentState) {
+                        circle.setAttribute("class", "node node-current");
+                    } else if (visitedPath.includes(node.id)) {
+                        circle.setAttribute("class", "node node-visited");
+                    } else {
+                        circle.setAttribute("class", "node");
+                    }
+                    nodeGroup.appendChild(circle);
+                    
+                    // Text in zwei Zeilen
+                    const state = gameStates[node.id];
+                    let textElements = [];
+                    
+                    if (state && state.displayName) {
+                        const words = state.displayName.split(' ');
+                        if (words.length > 1) {
+                            const firstLine = document.createElementNS(svgNS, "text");
+                            firstLine.setAttribute("y", "-5");
+                            firstLine.setAttribute("class", "node-text");
+                            firstLine.textContent = words.slice(0, Math.ceil(words.length/2)).join(' ');
+                            nodeGroup.appendChild(firstLine);
+                            textElements.push(firstLine);
+                            
+                            const secondLine = document.createElementNS(svgNS, "text");
+                            secondLine.setAttribute("y", "10");
+                            secondLine.setAttribute("class", "node-text");
+                            secondLine.textContent = words.slice(Math.ceil(words.length/2)).join(' ');
+                            nodeGroup.appendChild(secondLine);
+                            textElements.push(secondLine);
+                        } else {
+                            const text = document.createElementNS(svgNS, "text");
+                            text.setAttribute("y", "5");
+                            text.setAttribute("class", "node-text");
+                            text.textContent = state.displayName;
+                            nodeGroup.appendChild(text);
+                            textElements.push(text);
+                        }
+                        
+                        // Event-Listener für Vergrößerung bei Klick
+                        const toggleEnlarged = () => {
+                            const isEnlarged = nodeGroup.classList.contains('node-enlarged');
+                            if (isEnlarged) {
+                                nodeGroup.classList.remove('node-enlarged');
+                                // Entferne Pop-up, wenn vorhanden
+                                const popup = nodeGroup.querySelector('.popup-group');
+                                if (popup) {
+                                    nodeGroup.removeChild(popup);
+                                }
+                            } else {
+                                nodeGroup.classList.add('node-enlarged');
+                                
+                                // Füge ein Popup mit mehr Details hinzu
+                                if (state.content) {
+                                    const popupGroup = document.createElementNS(svgNS, "g");
+                                    popupGroup.setAttribute("class", "popup-group");
+                                    
+                                    // Hintergrund
+                                    const popupBg = document.createElementNS(svgNS, "rect");
+                                    popupBg.setAttribute("x", "35");
+                                    popupBg.setAttribute("y", "-40");
+                                    popupBg.setAttribute("width", "220");
+                                    popupBg.setAttribute("height", "80");
+                                    popupBg.setAttribute("class", "popup-info");
+                                    popupGroup.appendChild(popupBg);
+                                    
+                                    // Text
+                                    let shortContent = state.content;
+                                    if (shortContent.length > 120) {
+                                        shortContent = shortContent.substring(0, 117) + '...';
+                                    }
+                                    
+                                    // Text in mehreren Zeilen
+                                    const words = shortContent.split(' ');
+                                    let lines = [];
+                                    let currentLine = '';
+                                    
+                                    words.forEach(word => {
+                                        if ((currentLine + word).length > 25) {
+                                            lines.push(currentLine);
+                                            currentLine = word + ' ';
+                                        } else {
+                                            currentLine += word + ' ';
+                                        }
+                                    });
+                                    if (currentLine.length > 0) {
+                                        lines.push(currentLine);
+                                    }
+                                    
+                                    lines.forEach((line, index) => {
+                                        const popupText = document.createElementNS(svgNS, "text");
+                                        popupText.setAttribute("x", "45");
+                                        popupText.setAttribute("y", (-25 + index * 20).toString());
+                                        popupText.setAttribute("class", "popup-text");
+                                        popupText.textContent = line;
+                                        popupGroup.appendChild(popupText);
+                                    });
+                                    
+                                    nodeGroup.appendChild(popupGroup);
+                                }
+                            }
+                            
+                            // Dem übergeordneten Fenster die neue Größe mitteilen
+                            notifyParentAboutSize();
+                        };
+                        
+                        circle.addEventListener('click', toggleEnlarged);
+                        textElements.forEach(el => {
+                            el.addEventListener('click', toggleEnlarged);
+                        });
+                    }
+                    
+                    svg.appendChild(nodeGroup);
+                });
+                
+                // Dem übergeordneten Fenster die neue Größe mitteilen
+                notifyParentAboutSize();
+            }
+            
+            // Aktualisieren der Visualisierung bei Zustandsänderung
+            function updateVisualization(newStateId) {
+                const state = gameStates[newStateId];
+                if (!state) return;
+                
+                // Aktuellen Zustand aktualisieren
+                currentState = newStateId;
+                visitedPath.push(newStateId);
+                
+                // Prüfen, ob der Knoten bereits existiert
+                if (!treeData.nodes.some(node => node.id === newStateId)) {
+                    const position = calculateNodePosition(newStateId);
+                    treeData.nodes.push({
+                        id: newStateId,
+                        x: position.x,
+                        y: position.y,
+                        label: state.displayName || newStateId
+                    });
+                    
+                    // Verbindung zum vorherigen Zustand hinzufügen, wenn nicht der Startzustand
+                    if (visitedPath.length > 1) {
+                        const previousStateId = visitedPath[visitedPath.length - 2];
+                        treeData.links.push({
+                            source: previousStateId,
+                            target: newStateId
+                        });
+                    }
+                }
+                
+                // Optionen für den aktuellen Zustand
+                if (state.options) {
+                    state.options.forEach(option => {
+                        // Für jede Option prüfen, ob der Zielzustand bereits als Knoten existiert
+                        if (!treeData.nodes.some(node => node.id === option.nextState)) {
+                            const targetState = gameStates[option.nextState];
+                            if (targetState) {
+                                const position = calculateNodePosition(option.nextState);
+                                treeData.nodes.push({
+                                    id: option.nextState,
+                                    x: position.x,
+                                    y: position.y,
+                                    label: targetState.displayName || option.nextState
+                                });
+                            }
+                        }
+                        
+                        // Verbindung hinzufügen, wenn sie noch nicht existiert
+                        if (!treeData.links.some(link => link.source === newStateId && link.target === option.nextState)) {
+                            treeData.links.push({
+                                source: newStateId,
+                                target: option.nextState
+                            });
+                        }
+                    });
+                }
+                
+                // Baum neu zeichnen
+                renderTree();
+                
+                // Tooltip-Hinweis hinzufügen, wenn es der erste Knoten nach Start ist
+                if (visitedPath.length === 2) {
+                    setTimeout(() => {
+                        alert("Tipp: Klicke auf einen Knoten im Baum, um mehr Details zu sehen!");
+                    }, 500);
+                }
+            }
+            
+            // Spielzustand rendern
+            function renderState(stateName) {
+                const state = gameStates[stateName];
+                if (!state) return;
+                
+                gameContainer.innerHTML = '';
+                
+                // Container erstellen je nach Zustandstyp
+                const container = document.createElement('div');
+                container.className = state.type === 'cosmic-story' ? 'cosmic-story' : 
+                                      state.type === 'endpoint' ? 'endpoint' : 'question-container';
+                
+                // Inhalt einfügen
+                container.innerHTML = state.content;
+                
+                // Optionen hinzufügen, falls vorhanden
+                if (state.options && state.options.length > 0) {
+                    const optionsContainer = document.createElement('div');
+                    optionsContainer.className = 'options';
+                    
+                    state.options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.textContent = option.text;
+                        button.className = `option ${option.class || 'neutral-option'}`;
+                        button.addEventListener('click', () => {
+                            // Baum-Visualisierung aktualisieren
+                            updateVisualization(option.nextState);
+                            
+                            if (option.nextState === 'result') {
+                                gameContainer.style.display = 'none';
+                                resultElement.style.display = 'block';
+                            } else {
+                                renderState(option.nextState);
+                            }
+                            
+                            // Dem übergeordneten Fenster die neue Größe mitteilen
+                            notifyParentAboutSize();
+                        });
+                        optionsContainer.appendChild(button);
+                    });
+                    
+                    container.appendChild(optionsContainer);
+                }
+                
+                gameContainer.appendChild(container);
+                
+                // Dem übergeordneten Fenster die neue Größe mitteilen
+                notifyParentAboutSize();
+            }
+
+            // Neustart-Funktion
+            restartBtn.addEventListener('click', () => {
+                gameContainer.style.display = 'block';
+                resultElement.style.display = 'none';
+                visitedPath = ['start'];
+                currentState = 'start';
+                treeData.nodes = [{ id: 'start', x: 400, y: 50, label: 'Start' }];
+                treeData.links = [];
+                renderTree();
+                renderState('start');
+                
+                // Dem übergeordneten Fenster die neue Größe mitteilen
+                notifyParentAboutSize();
+            });
+
+            // Spiel initialisieren
+            updateVisualization('start');
+            renderState(currentState);
+            
+            // Initial dem übergeordneten Fenster die Größe mitteilen
+            setTimeout(notifyParentAboutSize, 500);
+        });
+    </script>
+</body>
+</html>
