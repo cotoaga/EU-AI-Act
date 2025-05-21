@@ -3,92 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EU AI Act Überlebens-Entscheidungsbaum</title>
+    <title>Erweiterter EU AI Act Überlebens-Entscheidungsbaum</title>
     <style>
-        /* Reset für konsistentes Rendering */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: transparent;
-            width: 100%;
-            height: 100%;
-            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        
         .container {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
         }
-        
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 5px;
             font-size: 24px;
         }
-        
         .subtitle {
             color: #666;
             text-align: center;
             font-style: italic;
             margin-bottom: 30px;
-            font-size: 14px;
+            font-size: 16px;
         }
-        
         .app-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        
         .interaction-area {
             flex: 1;
         }
-        
         .visualization-area {
             flex: 1;
             border-top: 1px dashed #ccc;
             padding-top: 20px;
             min-height: 300px;
         }
-        
         .question-container {
             background-color: #f0f0f0;
             border: 2px solid #333;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 500;
         }
-        
         .cosmic-story {
             background-color: white;
             border: 2px solid #333;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.5;
         }
-        
+        .cosmic-story h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+        }
         .options {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-top: 20px;
         }
-        
         .option {
-            padding: 12px 15px;
+            padding: 14px 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -96,30 +83,25 @@
             font-weight: bold;
             transition: all 0.3s;
         }
-        
         .yes-option {
             background-color: #e6ffe6;
             color: #006600;
             border: 2px solid #006600;
         }
-        
         .no-option {
             background-color: #ffe6e6;
             color: #660000;
             border: 2px solid #660000;
         }
-        
         .neutral-option {
             background-color: #e6f7ff;
             color: #0066cc;
             border: 2px solid #0066cc;
         }
-        
         .option:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
         .result {
             background-color: #ffe6e6;
             border: 3px solid #cc0000;
@@ -128,37 +110,41 @@
             text-align: center;
             margin-top: 20px;
             display: none;
+            font-size: 16px;
         }
-        
         .result h2 {
             color: #cc0000;
             margin-top: 0;
+            font-size: 22px;
         }
-        
         .endpoint {
             background-color: #e6f7ff;
             border: 2px solid #0066cc;
             border-radius: 8px;
-            padding: 15px;
+            padding: 18px;
             margin-bottom: 20px;
             font-weight: bold;
             text-align: center;
+            font-size: 18px;
         }
-        
         .restart-btn {
             background-color: #333;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 10px 15px;
+            padding: 12px 18px;
             cursor: pointer;
             display: block;
             margin: 20px auto 0;
             font-weight: bold;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
-        
+        .restart-btn:hover {
+            background-color: #555;
+        }
         .footnote {
-            font-size: 12px;
+            font-size: 14px;
             color: #666;
             text-align: center;
             margin-top: 30px;
@@ -171,34 +157,29 @@
             height: 100%;
             overflow: auto;
         }
-        
         .node {
             fill: #fff;
             stroke: #333;
             stroke-width: 2px;
         }
-        
         .node-visited {
             fill: #e6f7ff;
         }
-        
         .node-current {
             fill: #ffe6e6;
             stroke: #cc0000;
             stroke-width: 3px;
         }
-        
         .node-text {
-            font-size: 10px;
+            font-size: 12px; /* Vergrößert für bessere Lesbarkeit */
             text-anchor: middle;
+            pointer-events: none;
             transition: all 0.3s ease;
         }
-        
         .node-enlarged .node-text {
             font-size: 16px;
             font-weight: bold;
         }
-        
         .popup-info {
             fill: white;
             stroke: #333;
@@ -206,27 +187,25 @@
             rx: 5;
             ry: 5;
             opacity: 0.95;
+            filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
         }
-        
         .popup-text {
             font-size: 14px;
             fill: #333;
         }
-        
         .link {
             fill: none;
             stroke: #ccc;
             stroke-width: 2px;
         }
-        
         .link-visited {
             stroke: #333;
         }
-        
         .vis-section-header {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            color: #333;
         }
         
         /* Responsive Design */
@@ -234,11 +213,9 @@
             .app-container {
                 flex-direction: row;
             }
-            
             .interaction-area {
                 width: 50%;
             }
-            
             .visualization-area {
                 width: 50%;
                 border-top: none;
@@ -247,23 +224,10 @@
                 padding-left: 20px;
             }
         }
-        
-        /* Zusätzliche Styles für die iframe-Integration */
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow-x: hidden;
-        }
-        
-        #khaos-tree-container {
-            width: 100%;
-            height: 100%;
-            min-height: 800px;
-        }
     </style>
 </head>
 <body>
-    <div id="khaos-tree-container" class="container">
+    <div class="container">
         <h1>Der offizielle EU AI Act Überlebens-Entscheidungsbaum</h1>
         <p class="subtitle">(oder: Wie du durch die Galaxie der Bürokratie navigierst ohne deinen Verstand zu verlieren)</p>
         
@@ -274,7 +238,7 @@
                 </div>
                 
                 <div id="result" class="result">
-                    <h2>BUCHE JETZT DEN COTOAGA.NET EU AI ACT KURS!</h2>
+                    <h2>BUCHE JETZT DEN KHAOS EU AI ACT KURS!</h2>
                     <p>Herzlichen Glückwunsch! Du hast den einzig logischen Ausweg aus dem bürokratischen Labyrinth gefunden.</p>
                     <button id="restart-btn" class="restart-btn">Nochmal spielen</button>
                 </div>
@@ -288,40 +252,22 @@
             </div>
         </div>
         
-        <p class="footnote">*Hinweis: Egal welche Antworten du wählst, du brauchst diesen Kurs.<br>Es ist, als hätte das Schicksal (oder ein übermäßig sarkastischer AI-Programmier-Guru) es so gewollt.</p>
+        <p class="footnote">*Hinweis: Egal welche Antworten du wählst, du brauchst diesen Kurs.<br>Es ist, als hätte das Schicksal (oder ein übermäßig sarkastischer Programmier-Guru) es so gewollt.</p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Resize-Handler für iFrame-Kommunikation
-            function notifyParentAboutSize() {
-                const height = document.getElementById('khaos-tree-container').offsetHeight;
-                if (window.parent && window.parent !== window) {
-                    window.parent.postMessage({ type: 'resize', height: height + 50 }, '*');
-                }
-            }
-            
-            // Bei Änderungen die Größe anpassen
-            window.addEventListener('resize', notifyParentAboutSize);
-            
             // Spielzustände
             const gameStates = {
-                start: {
-                    type: 'cosmic-story',
-                    content: `
+                q1: {
+                    type: 'question',
+                    content: `<div class="cosmic-story" style="margin-bottom: 20px;">
                         <h3>Die kosmische Geschichte des EU AI Acts</h3>
                         <p>1. Das Universum wurde erschaffen, was viele Leute sehr ärgerlich machte und im Allgemeinen für keine gute Idee befunden wurde.</p>
                         <p>2. Unsere Vorfahren stiegen von den Bäumen, erschufen kurz danach Feuer, Rad und den Eingangsstempel der Behörden.</p>
                         <p>3. Dies besorgte mächtige Bürger so sehr, dass sie im Jahr 2024 den EU AI Act erschufen.</p>
-                    `,
-                    displayName: 'Kosmische Geschichte',
-                    options: [
-                        { text: 'Großartig. Lass uns anfangen!', nextState: 'q1', class: 'neutral-option' }
-                    ]
-                },
-                q1: {
-                    type: 'question',
-                    content: 'Bist du ein Hochrisiko-AI-System Hersteller?',
+                    </div>
+                    <div>Bist du ein Hochrisiko-AI-System Hersteller?</div>`,
                     displayName: 'Hochrisiko-Hersteller?',
                     options: [
                         { text: 'Ja', nextState: 'e1', class: 'yes-option' },
@@ -417,7 +363,7 @@
                 },
                 e_vision2: {
                     type: 'endpoint',
-                    content: 'Keine Sorge, die EU-Bürokratie wird Sky-Net aufhalten, bevor es die Weltherrschaft übernehmen kann.',
+                    content: 'Keine Sorge, die EU-Bürokratie wird die Maschinen aufhalten, bevor sie die Weltherrschaft übernehmen können.',
                     displayName: 'Bürokratie > Skynet',
                     options: [
                         { text: 'Beruhigend. Weiter.', nextState: 'q_management', class: 'neutral-option' }
@@ -480,7 +426,7 @@
                     content: 'Ah, die universelle Lösung für alles. Warum nicht gleich eine PowerPoint-Präsentation mit Comic Sans?',
                     displayName: 'Excel vs. AI Act',
                     options: [
-                        { text: 'Zapf Dingbats wäre besser. Weiter.', nextState: 'q5', class: 'neutral-option' }
+                        { text: 'Comic Sans wäre besser. Weiter.', nextState: 'q5', class: 'neutral-option' }
                     ]
                 },
                 e_impl2: {
@@ -535,14 +481,15 @@
             // Baum-Visualisierungsdaten
             const treeData = {
                 nodes: [
-                    { id: 'start', x: 400, y: 50, label: 'Start' }
+                    // Kein Startknoten mehr, direkt mit q1 beginnen
+                    { id: 'q1', x: 400, y: 50, label: 'Start' }
                 ],
                 links: []
             };
             
             // Besuchspfad für die Visualisierung
             let visitedPath = [];
-            let currentState = 'start';
+            let currentState = 'q1'; // Direkt mit q1 starten
             visitedPath.push(currentState);
             
             // DOM-Elemente
@@ -551,35 +498,33 @@
             const restartBtn = document.getElementById('restart-btn');
             const treeVisualization = document.getElementById('tree-visualization');
             
-            // Koordinatenberechnung für Baumknoten
+            // Koordinatenberechnung für Baumknoten mit verbesserten Abständen
             function calculateNodePosition(stateId) {
                 // Feststellen, wo wir im Baum sind
                 const levels = {
-                    'start': 0,
-                    'q1': 1,
-                    'e1': 2, 'q2': 2,
-                    'e2': 3, 'q3': 3,
-                    'q3b': 4, 'q4': 4,
-                    'e3': 5, 'e4': 5, 'q_vision': 5, 'q_management': 5,
-                    'e_vision1': 6, 'e_vision2': 6, 'e_vision3': 6, 'e_mgmt1': 6, 'e_mgmt2': 6, 'e_mgmt3': 6,
-                    'q_implementation': 7,
-                    'e_impl1': 8, 'e_impl2': 8, 'e_impl3': 8,
-                    'q5': 9,
-                    'e5': 10, 'q6': 10,
-                    'result': 11
+                    'q1': 0, // q1 ist jetzt der Startpunkt
+                    'e1': 1, 'q2': 1,
+                    'e2': 2, 'q3': 2,
+                    'q3b': 3, 'q4': 3,
+                    'e3': 4, 'e4': 4, 'q_vision': 4, 'q_management': 4,
+                    'e_vision1': 5, 'e_vision2': 5, 'e_vision3': 5, 'e_mgmt1': 5, 'e_mgmt2': 5, 'e_mgmt3': 5,
+                    'q_implementation': 6,
+                    'e_impl1': 7, 'e_impl2': 7, 'e_impl3': 7,
+                    'q5': 8,
+                    'e5': 9, 'q6': 9,
+                    'result': 10
                 };
                 
-                // Horizontale Position basierend auf ID (einfach für die Demo)
+                // Horizontale Position basierend auf ID (verbessert für bessere Platzierung)
                 const horizontalPositions = {
-                    'start': 400,
                     'q1': 400,
                     'e1': 600, 'q2': 400,
                     'e2': 600, 'q3': 400,
                     'q3b': 500, 'q4': 300,
                     'e3': 550, 'e4': 250, 'q_vision': 500, 'q_management': 300,
-                    'e_vision1': 450, 'e_vision2': 500, 'e_vision3': 550, 'e_mgmt1': 250, 'e_mgmt2': 300, 'e_mgmt3': 350,
+                    'e_vision1': 425, 'e_vision2': 500, 'e_vision3': 575, 'e_mgmt1': 225, 'e_mgmt2': 300, 'e_mgmt3': 375,
                     'q_implementation': 300,
-                    'e_impl1': 250, 'e_impl2': 300, 'e_impl3': 350,
+                    'e_impl1': 225, 'e_impl2': 300, 'e_impl3': 375,
                     'q5': 300,
                     'e5': 400, 'q6': 300,
                     'result': 400
@@ -587,12 +532,12 @@
                 
                 const level = levels[stateId] || 0;
                 const x = horizontalPositions[stateId] || 400;
-                const y = 50 + level * 60;
+                const y = 50 + level * 70; // Größerer vertikaler Abstand für bessere Lesbarkeit
                 
                 return { x, y };
             }
             
-            // Baum visualisieren
+            // Bessere Baumvisualisierung mit verbesserten Knotendarstellungen
             function renderTree() {
                 // SVG-Element erstellen oder leeren
                 treeVisualization.innerHTML = '';
@@ -600,7 +545,7 @@
                 const svg = document.createElementNS(svgNS, "svg");
                 svg.setAttribute("width", "100%");
                 svg.setAttribute("height", "700"); // Anpassen nach Bedarf
-                svg.setAttribute("viewBox", "0 0 800 700");
+                svg.setAttribute("viewBox", "0 0 800 750"); // Mehr vertikalen Raum
                 treeVisualization.appendChild(svg);
                 
                 // Verbindungslinien zeichnen
@@ -610,6 +555,7 @@
                     const targetNode = treeData.nodes.find(n => n.id === link.target);
                     
                     if (sourceNode && targetNode) {
+                        // Verbesserte Kurvenberechnung für glattere Linien
                         const path = `M${sourceNode.x},${sourceNode.y} C${sourceNode.x},${(sourceNode.y + targetNode.y) / 2} ${targetNode.x},${(sourceNode.y + targetNode.y) / 2} ${targetNode.x},${targetNode.y}`;
                         line.setAttribute("d", path);
                         line.setAttribute("class", `link ${visitedPath.includes(link.source) && visitedPath.includes(link.target) ? 'link-visited' : ''}`);
@@ -617,13 +563,14 @@
                     }
                 });
                 
-                // Knoten zeichnen
+                // Knoten zeichnen mit verbesserter Darstellung
                 treeData.nodes.forEach(node => {
                     const nodeGroup = document.createElementNS(svgNS, "g");
                     nodeGroup.setAttribute("transform", `translate(${node.x},${node.y})`);
                     
+                    // Größerer Kreis für bessere Sichtbarkeit
                     const circle = document.createElementNS(svgNS, "circle");
-                    circle.setAttribute("r", "25");
+                    circle.setAttribute("r", "30"); // Größer für bessere Lesbarkeit
                     circle.setAttribute("cursor", "pointer");
                     if (node.id === currentState) {
                         circle.setAttribute("class", "node node-current");
@@ -634,75 +581,84 @@
                     }
                     nodeGroup.appendChild(circle);
                     
-                    // Text in zwei Zeilen
+                    // Verbesserte Textdarstellung in mehreren Zeilen
                     const state = gameStates[node.id];
                     let textElements = [];
                     
                     if (state && state.displayName) {
+                        // Text splitten für bessere Lesbarkeit
                         const words = state.displayName.split(' ');
+                        
                         if (words.length > 1) {
+                            // Text in zwei Zeilen darstellen, falls mehrere Wörter
                             const firstLine = document.createElementNS(svgNS, "text");
-                            firstLine.setAttribute("y", "-5");
+                            firstLine.setAttribute("y", "-6"); // Höher positioniert
                             firstLine.setAttribute("class", "node-text");
+                            firstLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             firstLine.textContent = words.slice(0, Math.ceil(words.length/2)).join(' ');
                             nodeGroup.appendChild(firstLine);
                             textElements.push(firstLine);
                             
                             const secondLine = document.createElementNS(svgNS, "text");
-                            secondLine.setAttribute("y", "10");
+                            secondLine.setAttribute("y", "12"); // Mehr Abstand
                             secondLine.setAttribute("class", "node-text");
+                            secondLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             secondLine.textContent = words.slice(Math.ceil(words.length/2)).join(' ');
                             nodeGroup.appendChild(secondLine);
                             textElements.push(secondLine);
                         } else {
+                            // Einfacher Text, wenn nur ein Wort
                             const text = document.createElementNS(svgNS, "text");
                             text.setAttribute("y", "5");
                             text.setAttribute("class", "node-text");
+                            text.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             text.textContent = state.displayName;
                             nodeGroup.appendChild(text);
                             textElements.push(text);
                         }
                         
-                        // Event-Listener für Vergrößerung bei Klick
+                        // Event-Listener für Knoten-Klick mit verbessertem Popup
                         const toggleEnlarged = () => {
                             const isEnlarged = nodeGroup.classList.contains('node-enlarged');
-                            if (isEnlarged) {
-                                nodeGroup.classList.remove('node-enlarged');
-                                // Entferne Pop-up, wenn vorhanden
-                                const popup = nodeGroup.querySelector('.popup-group');
-                                if (popup) {
-                                    nodeGroup.removeChild(popup);
-                                }
-                            } else {
+                            
+                            // Alle anderen Popups schließen
+                            document.querySelectorAll('.popup-group').forEach(popup => {
+                                popup.parentNode.removeChild(popup);
+                            });
+                            document.querySelectorAll('.node-enlarged').forEach(node => {
+                                node.classList.remove('node-enlarged');
+                            });
+                            
+                            if (!isEnlarged) {
                                 nodeGroup.classList.add('node-enlarged');
                                 
-                                // Füge ein Popup mit mehr Details hinzu
+                                // Füge ein verbessertes Popup mit mehr Details hinzu
                                 if (state.content) {
                                     const popupGroup = document.createElementNS(svgNS, "g");
                                     popupGroup.setAttribute("class", "popup-group");
                                     
-                                    // Hintergrund
+                                    // Verbesserter Hintergrund mit Schatten
                                     const popupBg = document.createElementNS(svgNS, "rect");
                                     popupBg.setAttribute("x", "35");
                                     popupBg.setAttribute("y", "-40");
-                                    popupBg.setAttribute("width", "220");
-                                    popupBg.setAttribute("height", "80");
+                                    popupBg.setAttribute("width", "250"); // Breiter für mehr Text
+                                    popupBg.setAttribute("height", "90"); // Höher für mehr Text
                                     popupBg.setAttribute("class", "popup-info");
                                     popupGroup.appendChild(popupBg);
                                     
-                                    // Text
+                                    // Inhalt kürzen falls nötig
                                     let shortContent = state.content;
-                                    if (shortContent.length > 120) {
-                                        shortContent = shortContent.substring(0, 117) + '...';
+                                    if (shortContent.length > 140) { // Mehr Zeichen erlauben
+                                        shortContent = shortContent.substring(0, 137) + '...';
                                     }
                                     
-                                    // Text in mehreren Zeilen
+                                    // Text in mehreren Zeilen mit verbesserter Formatierung
                                     const words = shortContent.split(' ');
                                     let lines = [];
                                     let currentLine = '';
                                     
                                     words.forEach(word => {
-                                        if ((currentLine + word).length > 25) {
+                                        if ((currentLine + word).length > 30) { // Breitere Zeilen
                                             lines.push(currentLine);
                                             currentLine = word + ' ';
                                         } else {
@@ -713,23 +669,48 @@
                                         lines.push(currentLine);
                                     }
                                     
+                                    // Text darstellen
                                     lines.forEach((line, index) => {
                                         const popupText = document.createElementNS(svgNS, "text");
                                         popupText.setAttribute("x", "45");
-                                        popupText.setAttribute("y", (-25 + index * 20).toString());
+                                        popupText.setAttribute("y", (-25 + index * 20).toString()); // Mehr Abstand zwischen Zeilen
                                         popupText.setAttribute("class", "popup-text");
                                         popupText.textContent = line;
                                         popupGroup.appendChild(popupText);
                                     });
                                     
+                                    // Schließen-Button hinzufügen
+                                    const closeButton = document.createElementNS(svgNS, "circle");
+                                    closeButton.setAttribute("cx", "280");
+                                    closeButton.setAttribute("cy", "-35");
+                                    closeButton.setAttribute("r", "10");
+                                    closeButton.setAttribute("fill", "#ff6666");
+                                    closeButton.setAttribute("stroke", "#cc0000");
+                                    closeButton.setAttribute("cursor", "pointer");
+                                    closeButton.onclick = () => {
+                                        nodeGroup.removeChild(popupGroup);
+                                        nodeGroup.classList.remove('node-enlarged');
+                                    };
+                                    popupGroup.appendChild(closeButton);
+                                    
+                                    // X im Schließen-Button
+                                    const closeX = document.createElementNS(svgNS, "text");
+                                    closeX.setAttribute("x", "280");
+                                    closeX.setAttribute("y", "-31");
+                                    closeX.setAttribute("text-anchor", "middle");
+                                    closeX.setAttribute("font-size", "12px");
+                                    closeX.setAttribute("fill", "white");
+                                    closeX.setAttribute("font-weight", "bold");
+                                    closeX.setAttribute("pointer-events", "none");
+                                    closeX.textContent = "×";
+                                    popupGroup.appendChild(closeX);
+                                    
                                     nodeGroup.appendChild(popupGroup);
                                 }
                             }
-                            
-                            // Dem übergeordneten Fenster die neue Größe mitteilen
-                            notifyParentAboutSize();
                         };
                         
+                        // Event-Listener hinzufügen
                         circle.addEventListener('click', toggleEnlarged);
                         textElements.forEach(el => {
                             el.addEventListener('click', toggleEnlarged);
@@ -739,8 +720,8 @@
                     svg.appendChild(nodeGroup);
                 });
                 
-                // Dem übergeordneten Fenster die neue Größe mitteilen
-                notifyParentAboutSize();
+                // Größenanpassung und Message an das übergeordnete iframe
+                sendResizeMessage();
             }
             
             // Aktualisieren der Visualisierung bei Zustandsänderung
@@ -801,86 +782,111 @@
                 
                 // Baum neu zeichnen
                 renderTree();
-                
-                // Tooltip-Hinweis hinzufügen, wenn es der erste Knoten nach Start ist
-                if (visitedPath.length === 2) {
-                    setTimeout(() => {
-                        alert("Tipp: Klicke auf einen Knoten im Baum, um mehr Details zu sehen! (du musst dazu unten im Tab: Entscheidungshilfe sein)");
-                    }, 500);
-                }
             }
             
-            // Spielzustand rendern
+            // Spielzustand rendern mit verbesserter Animation
             function renderState(stateName) {
                 const state = gameStates[stateName];
                 if (!state) return;
                 
-                gameContainer.innerHTML = '';
+                // Fade-out Effekt
+                gameContainer.style.opacity = '0';
+                gameContainer.style.transition = 'opacity 0.3s';
                 
-                // Container erstellen je nach Zustandstyp
-                const container = document.createElement('div');
-                container.className = state.type === 'cosmic-story' ? 'cosmic-story' : 
-                                      state.type === 'endpoint' ? 'endpoint' : 'question-container';
-                
-                // Inhalt einfügen
-                container.innerHTML = state.content;
-                
-                // Optionen hinzufügen, falls vorhanden
-                if (state.options && state.options.length > 0) {
-                    const optionsContainer = document.createElement('div');
-                    optionsContainer.className = 'options';
+                setTimeout(() => {
+                    gameContainer.innerHTML = '';
                     
-                    state.options.forEach(option => {
-                        const button = document.createElement('button');
-                        button.textContent = option.text;
-                        button.className = `option ${option.class || 'neutral-option'}`;
-                        button.addEventListener('click', () => {
-                            // Baum-Visualisierung aktualisieren
-                            updateVisualization(option.nextState);
-                            
-                            if (option.nextState === 'result') {
-                                gameContainer.style.display = 'none';
-                                resultElement.style.display = 'block';
-                            } else {
-                                renderState(option.nextState);
-                            }
-                            
-                            // Dem übergeordneten Fenster die neue Größe mitteilen
-                            notifyParentAboutSize();
+                    // Container erstellen je nach Zustandstyp
+                    const container = document.createElement('div');
+                    container.className = state.type === 'cosmic-story' ? 'cosmic-story' : 
+                                          state.type === 'endpoint' ? 'endpoint' : 'question-container';
+                    
+                    // Inhalt einfügen
+                    container.innerHTML = state.content;
+                    
+                    // Optionen hinzufügen, falls vorhanden
+                    if (state.options && state.options.length > 0) {
+                        const optionsContainer = document.createElement('div');
+                        optionsContainer.className = 'options';
+                        
+                        state.options.forEach(option => {
+                            const button = document.createElement('button');
+                            button.textContent = option.text;
+                            button.className = `option ${option.class || 'neutral-option'}`;
+                            button.addEventListener('click', () => {
+                                // Baum-Visualisierung aktualisieren
+                                updateVisualization(option.nextState);
+                                
+                                if (option.nextState === 'result') {
+                                    gameContainer.style.display = 'none';
+                                    resultElement.style.display = 'block';
+                                } else {
+                                    renderState(option.nextState);
+                                }
+                            });
+                            optionsContainer.appendChild(button);
                         });
-                        optionsContainer.appendChild(button);
-                    });
+                        
+                        container.appendChild(optionsContainer);
+                    }
                     
-                    container.appendChild(optionsContainer);
-                }
-                
-                gameContainer.appendChild(container);
-                
-                // Dem übergeordneten Fenster die neue Größe mitteilen
-                notifyParentAboutSize();
+                    gameContainer.appendChild(container);
+                    
+                    // Fade-in Effekt
+                    setTimeout(() => {
+                        gameContainer.style.opacity = '1';
+                    }, 50);
+                }, 300);
             }
 
-            // Neustart-Funktion
+            // Neustart-Funktion mit verbesserter UX
             restartBtn.addEventListener('click', () => {
-                gameContainer.style.display = 'block';
-                resultElement.style.display = 'none';
-                visitedPath = ['start'];
-                currentState = 'start';
-                treeData.nodes = [{ id: 'start', x: 400, y: 50, label: 'Start' }];
-                treeData.links = [];
-                renderTree();
-                renderState('start');
+                // Fade-Effekte für sanftere Übergänge
+                resultElement.style.opacity = '0';
+                resultElement.style.transition = 'opacity 0.3s';
                 
-                // Dem übergeordneten Fenster die neue Größe mitteilen
-                notifyParentAboutSize();
+                setTimeout(() => {
+                    gameContainer.style.display = 'block';
+                    gameContainer.style.opacity = '0';
+                    resultElement.style.display = 'none';
+                    
+                    // Zurücksetzen
+                    visitedPath = ['q1']; // Direkt mit q1 starten
+                    currentState = 'q1';
+                    treeData.nodes = [{ id: 'q1', x: 400, y: 50, label: 'Start' }];
+                    treeData.links = [];
+                    
+                    renderTree();
+                    renderState(currentState);
+                    
+                    setTimeout(() => {
+                        gameContainer.style.opacity = '1';
+                    }, 50);
+                }, 300);
             });
+            
+            // Größenanpassungs-Nachricht senden
+            function sendResizeMessage() {
+                const height = document.body.scrollHeight;
+                window.parent.postMessage({
+                    type: 'resize',
+                    height: height
+                }, '*');
+            }
 
-            // Spiel initialisieren
-            updateVisualization('start');
+            // Spiel initialisieren - direkt mit q1, ohne Dialog
+            updateVisualization(currentState);
             renderState(currentState);
             
-            // Initial dem übergeordneten Fenster die Größe mitteilen
-            setTimeout(notifyParentAboutSize, 500);
+            // Event-Listener für Fenstergröße
+            window.addEventListener("resize", () => {
+                renderTree(); // Nur den Baum neu zeichnen, nicht das ganze Spiel
+            });
+            
+            // Automatische Anpassung der SVG-Höhe nach vollständigem Laden
+            setTimeout(() => {
+                sendResizeMessage();
+            }, 500);
         });
     </script>
 </body>
