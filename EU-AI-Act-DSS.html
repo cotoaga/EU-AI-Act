@@ -171,13 +171,13 @@
             stroke-width: 3px;
         }
         .node-text {
-            font-size: 12px; /* Vergrößert für bessere Lesbarkeit */
+            font-size: 14px; /* Größer für bessere Lesbarkeit */
             text-anchor: middle;
             pointer-events: none;
             transition: all 0.3s ease;
         }
         .node-enlarged .node-text {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
         }
         .popup-info {
@@ -252,7 +252,8 @@
             </div>
         </div>
         
-        <p class="footnote">*Hinweis: Egal welche Antworten du wählst, du brauchst diesen Kurs.<br>Es ist, als hätte das Schicksal (oder ein übermäßig sarkastischer Programmier-Guru) es so gewollt.</p>
+        <p class="footnote">*Hinweis: Egal welche Antworten du wählst, du brauchst diesen Kurs.<br>Es ist, als hätte das Schicksal (oder ein übermäßig sarkastischer Programmier-Guru) es so gewollt.<br><br>
+        <small style="font-style: normal; color: #888;">Dieser interaktive Entscheidungsbaum wurde als KI-generierter Proof of Concept erstellt, um zu demonstrieren, wie einfach man mit KI-Unterstützung kreative und interaktive Inhalte entwickeln kann.</small></p>
     </div>
 
     <script>
@@ -568,9 +569,9 @@
                     const nodeGroup = document.createElementNS(svgNS, "g");
                     nodeGroup.setAttribute("transform", `translate(${node.x},${node.y})`);
                     
-                    // Größerer Kreis für bessere Sichtbarkeit
+                    // Kreis für Knoten
                     const circle = document.createElementNS(svgNS, "circle");
-                    circle.setAttribute("r", "30"); // Größer für bessere Lesbarkeit
+                    circle.setAttribute("r", "35"); // Größer für bessere Lesbarkeit und mehr Platz für Text
                     circle.setAttribute("cursor", "pointer");
                     if (node.id === currentState) {
                         circle.setAttribute("class", "node node-current");
@@ -592,7 +593,7 @@
                         if (words.length > 1) {
                             // Text in zwei Zeilen darstellen, falls mehrere Wörter
                             const firstLine = document.createElementNS(svgNS, "text");
-                            firstLine.setAttribute("y", "-6"); // Höher positioniert
+                            firstLine.setAttribute("y", "-8"); // Höher positioniert
                             firstLine.setAttribute("class", "node-text");
                             firstLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             firstLine.textContent = words.slice(0, Math.ceil(words.length/2)).join(' ');
@@ -600,7 +601,7 @@
                             textElements.push(firstLine);
                             
                             const secondLine = document.createElementNS(svgNS, "text");
-                            secondLine.setAttribute("y", "12"); // Mehr Abstand
+                            secondLine.setAttribute("y", "14"); // Mehr Abstand
                             secondLine.setAttribute("class", "node-text");
                             secondLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             secondLine.textContent = words.slice(Math.ceil(words.length/2)).join(' ');
