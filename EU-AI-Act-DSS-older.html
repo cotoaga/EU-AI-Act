@@ -10,24 +10,22 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #f5f5f5;
         }
         .container {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(47, 110, 186, 0.1);
-            border: 1px solid rgba(47, 110, 186, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #000;
+            color: #333;
             text-align: center;
             margin-bottom: 5px;
             font-size: 24px;
-            font-weight: bold;
         }
         .subtitle {
-            color: #333;
+            color: #666;
             text-align: center;
             font-style: italic;
             margin-bottom: 30px;
@@ -43,13 +41,13 @@
         }
         .visualization-area {
             flex: 1;
-            border-top: 1px dashed #2F6EBA;
+            border-top: 1px dashed #ccc;
             padding-top: 20px;
             min-height: 300px;
         }
         .question-container {
-            background-color: #f8f9fa;
-            border: 2px solid #2F6EBA;
+            background-color: #f0f0f0;
+            border: 2px solid #333;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
@@ -58,7 +56,7 @@
         }
         .cosmic-story {
             background-color: white;
-            border: 2px solid #2F6EBA;
+            border: 2px solid #333;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
@@ -67,7 +65,7 @@
         }
         .cosmic-story h3 {
             margin-top: 0;
-            color: #2F6EBA;
+            color: #333;
             font-size: 20px;
         }
         .options {
@@ -86,28 +84,27 @@
             transition: all 0.3s;
         }
         .yes-option {
-            background-color: #e6f7ff;
-            color: #2F6EBA;
-            border: 2px solid #2F6EBA;
+            background-color: #e6ffe6;
+            color: #006600;
+            border: 2px solid #006600;
         }
         .no-option {
-            background-color: #f0f8ff;
-            color: #6EC1E4;
-            border: 2px solid #6EC1E4;
+            background-color: #ffe6e6;
+            color: #660000;
+            border: 2px solid #660000;
         }
         .neutral-option {
-            background-color: #f8f9fa;
-            color: #333;
-            border: 2px solid #333;
+            background-color: #e6f7ff;
+            color: #0066cc;
+            border: 2px solid #0066cc;
         }
         .option:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(47, 110, 186, 0.2);
-            color: #6EC1E4;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .result {
-            background-color: #e6f7ff;
-            border: 3px solid #2F6EBA;
+            background-color: #ffe6e6;
+            border: 3px solid #cc0000;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
@@ -116,13 +113,13 @@
             font-size: 16px;
         }
         .result h2 {
-            color: #2F6EBA;
+            color: #cc0000;
             margin-top: 0;
             font-size: 22px;
         }
         .endpoint {
             background-color: #e6f7ff;
-            border: 2px solid #2F6EBA;
+            border: 2px solid #0066cc;
             border-radius: 8px;
             padding: 18px;
             margin-bottom: 20px;
@@ -131,7 +128,7 @@
             font-size: 18px;
         }
         .restart-btn {
-            background-color: #2F6EBA;
+            background-color: #333;
             color: white;
             border: none;
             border-radius: 5px;
@@ -141,11 +138,10 @@
             margin: 20px auto 0;
             font-weight: bold;
             font-size: 16px;
-            transition: all 0.3s;
+            transition: background-color 0.3s;
         }
         .restart-btn:hover {
-            color: #6EC1E4;
-            transform: translateY(-2px);
+            background-color: #555;
         }
         .footnote {
             font-size: 14px;
@@ -163,59 +159,53 @@
         }
         .node {
             fill: #fff;
-            stroke: #2F6EBA;
+            stroke: #333;
             stroke-width: 2px;
         }
         .node-visited {
             fill: #e6f7ff;
         }
         .node-current {
-            fill: #f0f8ff;
-            stroke: #6EC1E4;
+            fill: #ffe6e6;
+            stroke: #cc0000;
             stroke-width: 3px;
         }
         .node-text {
-            font-size: 18px;
+            font-size: 14px; /* Größer für bessere Lesbarkeit */
             text-anchor: middle;
             pointer-events: none;
             transition: all 0.3s ease;
-            font-weight: bold;
-            fill: #2F6EBA;
         }
         .node-enlarged .node-text {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
         }
         .popup-info {
             fill: white;
-            stroke: #2F6EBA;
-            stroke-width: 2px;
-            rx: 8;
-            ry: 8;
-            opacity: 0.98;
-            filter: drop-shadow(0px 4px 8px rgba(47, 110, 186, 0.3));
+            stroke: #333;
+            stroke-width: 1px;
+            rx: 5;
+            ry: 5;
+            opacity: 0.95;
+            filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
         }
         .popup-text {
-            font-size: 16px;
+            font-size: 14px;
             fill: #333;
-            font-weight: 500;
-        }
-        .popup-group {
-            z-index: 1000;
         }
         .link {
             fill: none;
-            stroke: #6EC1E4;
+            stroke: #ccc;
             stroke-width: 2px;
         }
         .link-visited {
-            stroke: #2F6EBA;
+            stroke: #333;
         }
         .vis-section-header {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
-            color: #2F6EBA;
+            color: #333;
         }
         
         /* Responsive Design */
@@ -229,7 +219,7 @@
             .visualization-area {
                 width: 50%;
                 border-top: none;
-                border-left: 1px dashed #2F6EBA;
+                border-left: 1px dashed #ccc;
                 padding-top: 0;
                 padding-left: 20px;
             }
@@ -248,7 +238,7 @@
                 </div>
                 
                 <div id="result" class="result">
-                    <h2>BUCHE JETZT DEN SBaaS™ KURS!</h2>
+                    <h2>BUCHE JETZT DEN KHAOS EU AI ACT KURS!</h2>
                     <p>Herzlichen Glückwunsch! Du hast den einzig logischen Ausweg aus dem bürokratischen Labyrinth gefunden.</p>
                     <button id="restart-btn" class="restart-btn">Nochmal spielen</button>
                 </div>
@@ -485,7 +475,7 @@
                 result: {
                     type: 'end',
                     content: '',
-                    displayName: 'SBaaS™ Kurs!'
+                    displayName: 'KHAOS Kurs!'
                 }
             };
 
@@ -526,24 +516,24 @@
                     'result': 10
                 };
                 
-                // Horizontale Position basierend auf ID (verbessert für bessere Platzierung und weniger Überlappung)
+                // Horizontale Position basierend auf ID (verbessert für bessere Platzierung)
                 const horizontalPositions = {
                     'q1': 400,
-                    'e1': 650, 'q2': 400,
-                    'e2': 650, 'q3': 400,
-                    'q3b': 550, 'q4': 250,
-                    'e3': 650, 'e4': 150, 'q_vision': 550, 'q_management': 250,
-                    'e_vision1': 400, 'e_vision2': 550, 'e_vision3': 700, 'e_mgmt1': 100, 'e_mgmt2': 250, 'e_mgmt3': 400,
-                    'q_implementation': 250,
-                    'e_impl1': 100, 'e_impl2': 250, 'e_impl3': 400,
-                    'q5': 250,
-                    'e5': 400, 'q6': 250,
+                    'e1': 600, 'q2': 400,
+                    'e2': 600, 'q3': 400,
+                    'q3b': 500, 'q4': 300,
+                    'e3': 550, 'e4': 250, 'q_vision': 500, 'q_management': 300,
+                    'e_vision1': 425, 'e_vision2': 500, 'e_vision3': 575, 'e_mgmt1': 225, 'e_mgmt2': 300, 'e_mgmt3': 375,
+                    'q_implementation': 300,
+                    'e_impl1': 225, 'e_impl2': 300, 'e_impl3': 375,
+                    'q5': 300,
+                    'e5': 400, 'q6': 300,
                     'result': 400
                 };
                 
                 const level = levels[stateId] || 0;
                 const x = horizontalPositions[stateId] || 400;
-                const y = 50 + level * 120; // Noch größerer vertikaler Abstand gegen Überlappung
+                const y = 50 + level * 70; // Größerer vertikaler Abstand für bessere Lesbarkeit
                 
                 return { x, y };
             }
@@ -555,8 +545,8 @@
                 const svgNS = "http://www.w3.org/2000/svg";
                 const svg = document.createElementNS(svgNS, "svg");
                 svg.setAttribute("width", "100%");
-                svg.setAttribute("height", "1200"); // Mehr Höhe für den erweiterten Baum
-                svg.setAttribute("viewBox", "0 0 800 1200"); // Noch mehr vertikalen Raum für größere Abstände
+                svg.setAttribute("height", "700"); // Anpassen nach Bedarf
+                svg.setAttribute("viewBox", "0 0 800 750"); // Mehr vertikalen Raum
                 treeVisualization.appendChild(svg);
                 
                 // Verbindungslinien zeichnen
@@ -581,7 +571,7 @@
                     
                     // Kreis für Knoten
                     const circle = document.createElementNS(svgNS, "circle");
-                    circle.setAttribute("r", "45"); // Noch größer für mobile und bessere Textlesbarkeit
+                    circle.setAttribute("r", "35"); // Größer für bessere Lesbarkeit und mehr Platz für Text
                     circle.setAttribute("cursor", "pointer");
                     if (node.id === currentState) {
                         circle.setAttribute("class", "node node-current");
@@ -603,26 +593,26 @@
                         if (words.length > 1) {
                             // Text in zwei Zeilen darstellen, falls mehrere Wörter
                             const firstLine = document.createElementNS(svgNS, "text");
-                            firstLine.setAttribute("y", "-12"); // Mehr Abstand nach oben
+                            firstLine.setAttribute("y", "-8"); // Höher positioniert
                             firstLine.setAttribute("class", "node-text");
-                            firstLine.setAttribute("font-weight", "bold");
+                            firstLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             firstLine.textContent = words.slice(0, Math.ceil(words.length/2)).join(' ');
                             nodeGroup.appendChild(firstLine);
                             textElements.push(firstLine);
                             
                             const secondLine = document.createElementNS(svgNS, "text");
-                            secondLine.setAttribute("y", "16"); // Mehr Abstand nach unten
+                            secondLine.setAttribute("y", "14"); // Mehr Abstand
                             secondLine.setAttribute("class", "node-text");
-                            secondLine.setAttribute("font-weight", "bold");
+                            secondLine.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             secondLine.textContent = words.slice(Math.ceil(words.length/2)).join(' ');
                             nodeGroup.appendChild(secondLine);
                             textElements.push(secondLine);
                         } else {
                             // Einfacher Text, wenn nur ein Wort
                             const text = document.createElementNS(svgNS, "text");
-                            text.setAttribute("y", "8"); // Zentriert im größeren Kreis
+                            text.setAttribute("y", "5");
                             text.setAttribute("class", "node-text");
-                            text.setAttribute("font-weight", "bold");
+                            text.setAttribute("font-weight", "bold"); // Fetter Text für bessere Lesbarkeit
                             text.textContent = state.displayName;
                             nodeGroup.appendChild(text);
                             textElements.push(text);
@@ -634,9 +624,7 @@
                             
                             // Alle anderen Popups schließen
                             document.querySelectorAll('.popup-group').forEach(popup => {
-                                if (popup.parentNode) {
-                                    popup.parentNode.removeChild(popup); // Sicherheitsprüfung hinzugefügt
-                                }
+                                popup.parentNode.removeChild(popup);
                             });
                             document.querySelectorAll('.node-enlarged').forEach(node => {
                                 node.classList.remove('node-enlarged');
@@ -652,17 +640,17 @@
                                     
                                     // Verbesserter Hintergrund mit Schatten
                                     const popupBg = document.createElementNS(svgNS, "rect");
-                                    popupBg.setAttribute("x", "40");
-                                    popupBg.setAttribute("y", "-50");
-                                    popupBg.setAttribute("width", "280"); // Noch breiter für größeren Text
-                                    popupBg.setAttribute("height", "100"); // Höher für größeren Text
+                                    popupBg.setAttribute("x", "35");
+                                    popupBg.setAttribute("y", "-40");
+                                    popupBg.setAttribute("width", "250"); // Breiter für mehr Text
+                                    popupBg.setAttribute("height", "90"); // Höher für mehr Text
                                     popupBg.setAttribute("class", "popup-info");
                                     popupGroup.appendChild(popupBg);
                                     
                                     // Inhalt kürzen falls nötig
                                     let shortContent = state.content;
-                                    if (shortContent.length > 160) { // Mehr Zeichen erlauben
-                                        shortContent = shortContent.substring(0, 157) + '...';
+                                    if (shortContent.length > 140) { // Mehr Zeichen erlauben
+                                        shortContent = shortContent.substring(0, 137) + '...';
                                     }
                                     
                                     // Text in mehreren Zeilen mit verbesserter Formatierung
@@ -671,7 +659,7 @@
                                     let currentLine = '';
                                     
                                     words.forEach(word => {
-                                        if ((currentLine + word).length > 32) { // Breitere Zeilen für größeren Text
+                                        if ((currentLine + word).length > 30) { // Breitere Zeilen
                                             lines.push(currentLine);
                                             currentLine = word + ' ';
                                         } else {
@@ -685,8 +673,8 @@
                                     // Text darstellen
                                     lines.forEach((line, index) => {
                                         const popupText = document.createElementNS(svgNS, "text");
-                                        popupText.setAttribute("x", "50");
-                                        popupText.setAttribute("y", (-30 + index * 22).toString()); // Mehr Abstand zwischen Zeilen
+                                        popupText.setAttribute("x", "45");
+                                        popupText.setAttribute("y", (-25 + index * 20).toString()); // Mehr Abstand zwischen Zeilen
                                         popupText.setAttribute("class", "popup-text");
                                         popupText.textContent = line;
                                         popupGroup.appendChild(popupText);
@@ -694,33 +682,31 @@
                                     
                                     // Schließen-Button hinzufügen
                                     const closeButton = document.createElementNS(svgNS, "circle");
-                                    closeButton.setAttribute("cx", "310");
-                                    closeButton.setAttribute("cy", "-40");
-                                    closeButton.setAttribute("r", "12");
-                                    closeButton.setAttribute("fill", "#6EC1E4");
-                                    closeButton.setAttribute("stroke", "#2F6EBA");
-                                    closeButton.setAttribute("stroke-width", "2");
+                                    closeButton.setAttribute("cx", "280");
+                                    closeButton.setAttribute("cy", "-35");
+                                    closeButton.setAttribute("r", "10");
+                                    closeButton.setAttribute("fill", "#ff6666");
+                                    closeButton.setAttribute("stroke", "#cc0000");
                                     closeButton.setAttribute("cursor", "pointer");
                                     closeButton.onclick = () => {
-                                        svg.removeChild(popupGroup); // Vom SVG entfernen, nicht von nodeGroup
+                                        nodeGroup.removeChild(popupGroup);
                                         nodeGroup.classList.remove('node-enlarged');
                                     };
                                     popupGroup.appendChild(closeButton);
                                     
                                     // X im Schließen-Button
                                     const closeX = document.createElementNS(svgNS, "text");
-                                    closeX.setAttribute("x", "310");
-                                    closeX.setAttribute("y", "-35");
+                                    closeX.setAttribute("x", "280");
+                                    closeX.setAttribute("y", "-31");
                                     closeX.setAttribute("text-anchor", "middle");
-                                    closeX.setAttribute("font-size", "14px");
+                                    closeX.setAttribute("font-size", "12px");
                                     closeX.setAttribute("fill", "white");
                                     closeX.setAttribute("font-weight", "bold");
                                     closeX.setAttribute("pointer-events", "none");
                                     closeX.textContent = "×";
                                     popupGroup.appendChild(closeX);
                                     
-                                    // Popup-Gruppe am Ende anhängen, damit sie über anderen Elementen liegt
-                                    svg.appendChild(popupGroup);
+                                    nodeGroup.appendChild(popupGroup);
                                 }
                             }
                         };
